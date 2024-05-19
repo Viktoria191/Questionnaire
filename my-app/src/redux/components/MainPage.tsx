@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAppSelector } from '../hook';
 import { FormControl, FormLabel, Radio, RadioGroup } from '@mui/joy';
+import '../../style.css';
 
 interface Question {
   question: string;
@@ -15,7 +16,9 @@ export default function MainPage(): JSX.Element {
   );
   const [selectedAnswer, setSelectedAnswer] = useState<string>('');
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
-  const [userAnswers, setUserAnswers] = useState<{ answer: string; correct: boolean }[]>([]);
+  const [userAnswers, setUserAnswers] = useState<
+    { answer: string; correct: boolean }[]
+  >([]);
 
   const handleAnswerSelection = (answer: string) => {
     setSelectedAnswer(answer);
@@ -23,8 +26,12 @@ export default function MainPage(): JSX.Element {
 
   const handleSubmitAnswer = () => {
     if (selectedAnswer) {
-      const isCorrect = selectedAnswer === questions[currentQuestionIndex].correct_answer;
-      setUserAnswers([...userAnswers, { answer: selectedAnswer, correct: isCorrect }]);
+      const isCorrect =
+        selectedAnswer === questions[currentQuestionIndex].correct_answer;
+      setUserAnswers([
+        ...userAnswers,
+        { answer: selectedAnswer, correct: isCorrect },
+      ]);
       setSelectedAnswer('');
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
@@ -33,7 +40,7 @@ export default function MainPage(): JSX.Element {
   };
 
   return (
-    <div>
+    <div className="container">
       {currentQuestionIndex < questions.length ? (
         <FormControl>
           <FormLabel>{questions[currentQuestionIndex].question}</FormLabel>
@@ -50,8 +57,15 @@ export default function MainPage(): JSX.Element {
               )
             )}
             <Radio
-              checked={selectedAnswer === questions[currentQuestionIndex].correct_answer}
-              onClick={() => handleAnswerSelection(questions[currentQuestionIndex].correct_answer)}
+              checked={
+                selectedAnswer ===
+                questions[currentQuestionIndex].correct_answer
+              }
+              onClick={() =>
+                handleAnswerSelection(
+                  questions[currentQuestionIndex].correct_answer
+                )
+              }
               value={questions[currentQuestionIndex].correct_answer}
               label={questions[currentQuestionIndex].correct_answer}
             ></Radio>
@@ -66,7 +80,8 @@ export default function MainPage(): JSX.Element {
           <ul>
             {userAnswers.map(({ answer, correct }, index) => (
               <li key={index}>
-                {answer} - {correct ? 'Correct' : 'Incorrect'} - {questions[index].difficulty}
+                {answer} - {correct ? 'Correct' : 'Incorrect'} -{' '}
+                {questions[index].difficulty}
               </li>
             ))}
           </ul>
