@@ -15,7 +15,7 @@ export default function MainPage(): JSX.Element {
   );
   const [selectedAnswer, setSelectedAnswer] = useState<string>('');
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
-  const [userAnswers, setUserAnswers] = useState<string[]>([]);
+  const [userAnswers, setUserAnswers] = useState<{ answer: string; correct: boolean }[]>([]);
 
   const handleAnswerSelection = (answer: string) => {
     setSelectedAnswer(answer);
@@ -23,7 +23,8 @@ export default function MainPage(): JSX.Element {
 
   const handleSubmitAnswer = () => {
     if (selectedAnswer) {
-      setUserAnswers([...userAnswers, selectedAnswer]);
+      const isCorrect = selectedAnswer === questions[currentQuestionIndex].correct_answer;
+      setUserAnswers([...userAnswers, { answer: selectedAnswer, correct: isCorrect }]);
       setSelectedAnswer('');
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
@@ -49,15 +50,8 @@ export default function MainPage(): JSX.Element {
               )
             )}
             <Radio
-              checked={
-                selectedAnswer ===
-                questions[currentQuestionIndex].correct_answer
-              }
-              onClick={() =>
-                handleAnswerSelection(
-                  questions[currentQuestionIndex].correct_answer
-                )
-              }
+              checked={selectedAnswer === questions[currentQuestionIndex].correct_answer}
+              onClick={() => handleAnswerSelection(questions[currentQuestionIndex].correct_answer)}
               value={questions[currentQuestionIndex].correct_answer}
               label={questions[currentQuestionIndex].correct_answer}
             ></Radio>
@@ -70,9 +64,9 @@ export default function MainPage(): JSX.Element {
         <div>
           <h2>User Answers:</h2>
           <ul>
-            {userAnswers.map((answer, index) => (
+            {userAnswers.map(({ answer, correct }, index) => (
               <li key={index}>
-                {answer} - {questions[index].difficulty}
+                {answer} - {correct ? 'Correct' : 'Incorrect'} - {questions[index].difficulty}
               </li>
             ))}
           </ul>
