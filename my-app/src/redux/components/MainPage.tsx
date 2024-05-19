@@ -6,6 +6,7 @@ interface Question {
   question: string;
   correct_answer: string;
   incorrect_answers: string[];
+  difficulty: string;
 }
 
 export default function MainPage(): JSX.Element {
@@ -26,7 +27,7 @@ export default function MainPage(): JSX.Element {
       setSelectedAnswer('');
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
-      alert("Please select an answer before submitting.");
+      alert('Please select an answer before submitting.');
     }
   };
 
@@ -70,7 +71,9 @@ export default function MainPage(): JSX.Element {
           <h2>User Answers:</h2>
           <ul>
             {userAnswers.map((answer, index) => (
-              <li key={index}>{answer}</li>
+              <li key={index}>
+                {answer} - {questions[index].difficulty}
+              </li>
             ))}
           </ul>
         </div>
