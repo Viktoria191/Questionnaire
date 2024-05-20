@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { thunkQuestionsLoad } from './redux/questions/createAsyncThunk';
 import { useAppDispatch } from './redux/hook';
 import { Route, Routes } from 'react-router-dom';
-import MainPage from './redux/components/MainPage';
+import MainPage from './components/MainPage';
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -13,7 +13,7 @@ function App(): JSX.Element {
     <Routes>
       <Route path="/" element={<MainPage />} />
     </Routes>
-  )
+  );
 }
 
 export default App;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useAppSelector } from '../hook';
+import { useAppSelector } from '../redux/hook';
 import { FormControl, FormLabel, Radio, RadioGroup } from '@mui/joy';
-import '../../style.css';
+import '../style.css';
 
 interface Question {
   question: string;
@@ -11,9 +11,7 @@ interface Question {
 }
 
 export default function MainPage(): JSX.Element {
-  const questions: Question[] = useAppSelector(
-    (state) => state.apiSlice.questions
-  );
+  const questions: Question[] = useAppSelector((state) => state.apiSlice.questions);
   const [selectedAnswer, setSelectedAnswer] = useState<string>('');
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
   const [userAnswers, setUserAnswers] = useState<
